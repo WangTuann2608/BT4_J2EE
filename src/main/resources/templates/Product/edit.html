@@ -1,0 +1,56 @@
+<section th:replace="~{Product/layout :: dynamic(~{::content})}">
+  <div th:fragment="content">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <div class="card p-4">
+          <h2 class="fw-bold mb-4">Sửa sản phẩm</h2>
+          <form th:action="@{/products/update}" th:object="${product}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}">
+            <!-- ✅ FIX: Giữ lại tên ảnh cũ khi không upload ảnh mới -->
+            <input type="hidden" th:field="*{image}">
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Tên sản phẩm</label>
+              <input th:field="*{name}" class="form-control">
+              <span class="text-danger small" th:errors="*{name}"></span>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Giá bán (đ)</label>
+              <input th:field="*{price}" type="number" min="1" class="form-control">
+              <span class="text-danger small" th:errors="*{price}"></span>
+            </div>
+
+            <!-- ✅ FIX: Thêm select danh mục vào form edit -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Danh mục</label>
+              <select th:field="*{categoryId}" class="form-select">
+                <option value="">-- Chọn danh mục --</option>
+                <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+              </select>
+              <span class="text-danger small" th:errors="*{categoryId}"></span>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Ảnh hiện tại</label>
+              <div class="mb-2" th:if="*{image != null and !image.isEmpty()}">
+                <img th:src="@{|/images/${product.image}|}"
+                     style="width: 80px; height: 80px; object-fit: cover;"
+                     class="rounded-3 border"
+                     onerror="this.src='https://placehold.co/80x80?text=No+Img'">
+                <span class="ms-2 text-muted small" th:text="*{image}"></span>
+              </div>
+              <label class="form-label text-muted small">Thay ảnh mới (để trống nếu không đổi)</label>
+              <input type="file" th:field="*{imageFile}" class="form-control" accept="image/*">
+            </div>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-warning px-4">✏️ Cập nhật</button>
+              <a th:href="@{/products}" class="btn btn-outline-secondary px-4">Hủy</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

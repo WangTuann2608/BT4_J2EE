@@ -1,0 +1,45 @@
+<section th:replace="~{Product/layout :: dynamic(~{::content})}">
+  <div th:fragment="content">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <div class="card p-4">
+          <h2 class="fw-bold mb-4">Thêm sản phẩm</h2>
+          <form th:action="@{/products/create}" th:object="${product}" method="post" enctype="multipart/form-data">
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Tên sản phẩm</label>
+              <input th:field="*{name}" class="form-control" placeholder="Nhập tên sản phẩm">
+              <span class="text-danger small" th:errors="*{name}"></span>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Giá bán (đ)</label>
+              <input th:field="*{price}" type="number" min="1" class="form-control" placeholder="Nhập giá">
+              <span class="text-danger small" th:errors="*{price}"></span>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Danh mục</label>
+              <select th:field="*{categoryId}" class="form-select">
+                <option value="">-- Chọn danh mục --</option>
+                <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+              </select>
+              <!-- ✅ FIX: Thêm hiển thị lỗi cho categoryId -->
+              <span class="text-danger small" th:errors="*{categoryId}"></span>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Ảnh sản phẩm</label>
+              <input type="file" th:field="*{imageFile}" class="form-control" accept="image/*">
+            </div>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-success px-4">💾 Lưu</button>
+              <a th:href="@{/products}" class="btn btn-outline-secondary px-4">Hủy</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
