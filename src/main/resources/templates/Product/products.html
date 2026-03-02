@@ -65,11 +65,20 @@
 
             <!-- Hành động -->
             <td class="text-center">
+
               <a th:href="@{|/products/edit/${p.id}|}"
                  class="btn btn-outline-warning btn-sm px-3">
                 Sửa
               </a>
+
+              <a th:href="@{|/products/delete/${p.id}|}"
+                 class="btn btn-outline-danger btn-sm px-3"
+                 onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">
+                Xóa
+              </a>
+
             </td>
+
 
           </tr>
           </tbody>

@@ -18,6 +18,9 @@ public class ProductService {
     public Product findById(Integer id) {
         return list.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
     }
+    public void delete(Integer id) {
+        list.removeIf(p -> p.getId().equals(id));
+    }
     public void update(Product p) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getId().equals(p.getId())) {

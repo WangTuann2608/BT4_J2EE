@@ -75,4 +75,25 @@ public class ProductController {
         productService.update(p);
         return "redirect:/products";
     }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) throws Exception {
+
+        Product p = productService.findById(id);
+
+        if (p != null) {
+
+            // Xóa file ảnh nếu có
+            if (p.getImage() != null) {
+                String uploadDir = "src/main/resources/static/images/";
+                java.nio.file.Path path =
+                        java.nio.file.Paths.get(uploadDir + p.getImage());
+
+                java.nio.file.Files.deleteIfExists(path);
+            }
+
+            productService.delete(id);
+        }
+
+        return "redirect:/products?success=delete";
+    }
 }
